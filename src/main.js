@@ -108,7 +108,7 @@ async function onLoadMoreButtonEl(e) {
             captionDelay: 250
         });
 
-        SimpleLightbox.refresh();
+        gallerySimpleLightbox.refresh();
 
     } catch (error) {
         console.log(error)
