@@ -48,6 +48,7 @@ async function onformEl(e) {
                 messageColor: "#ffffff",
             });
             clearHTML();
+            loadMoreButtonEl.classList.add('is-hidden');
             loaderEl.classList.add('is-hidden');
             return;
         }
