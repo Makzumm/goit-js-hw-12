@@ -157,3 +157,8 @@
   visibility: hidden;
   opacity: 0;
 }
+
+.button-up-hidden {
+  opacity: 0;
+  transform: translateX(200%);
+}

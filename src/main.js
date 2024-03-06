@@ -7,7 +7,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-const { galleryWrapper, formEl, inputEl, loaderEl } = refs;
+const { loadMoreButtonEl, galleryWrapper, formEl, inputEl, loaderEl } = refs;
 const fetchImg = new FetchImage()
 const gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 
@@ -54,12 +54,24 @@ async function onformEl(e) {
 
         loaderEl.classList.add('is-hidden');
 
+        clearHTML();
+        galleryWrapper.insertAdjacentHTML('beforeend', createMarkUp(data.data.hits));
+
         iziToast.success({
             position: 'topRight',
-            message: `Hooray! We found ${data.totalHits} images.`,
+            message: `Hooray! We found ${data.data.totalHits} images.`,
         });
 
-        galleryWrapper.insertAdjacentHTML('beforeend', createMarkUp(data.data.hits));
+        if (!data.data.hits.length) {
+            return [];
+        } else {
+            loadMoreButtonEl.classList.remove('is-hidden');
+        }
+
+        if (data.data.totalHits <= 20) {
+            loadMoreButtonEl.classList.add('is-hidden');
+        }
+
         gallerySimpleLightbox.refresh();
 
     } catch (error) {
@@ -70,10 +82,37 @@ async function onformEl(e) {
 inputEl.addEventListener('input', () => {
     const inputValue = inputEl.value.trim();
     if (inputValue === '') {
+        loadMoreButtonEl.classList.add('is-hidden');
         clearHTML();
     }
 });
 
+loadMoreButtonEl.addEventListener('click', onLoadMoreButtonEl);
+
+async function onLoadMoreButtonEl(e) {
+    fetchImg.increasePage();
+
+    try {
+        const response = await fetchImg.getImage(fetchImg.fetchedData);
+
+        if (fetchImg.page === Math.ceil(response.data.total / 20)) {
+            loadMoreButtonEl.classList.add('is-hidden');
+            Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+        }
+
+        galleryWrapper.insertAdjacentHTML('beforeend', createMarkUp(response.data.hits));
+
+        new SimpleLightbox('.gallery a', {
+            captionsData: 'alt',
+            captionDelay: 250
+        });
+
+        SimpleLightbox.refresh();
+
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 function clearHTML() {
     galleryWrapper.innerHTML = '';
