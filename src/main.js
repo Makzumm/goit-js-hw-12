@@ -33,6 +33,8 @@ async function onformEl(e) {
     }
 
     loaderEl.classList.remove('is-hidden');
+    fetchImg.pageToStartPosition();
+
     try {
         const data = await fetchImg.getImage(fetchImg.fetchedData);
         console.log(data)
@@ -83,6 +85,7 @@ async function onformEl(e) {
 inputEl.addEventListener('input', () => {
     const inputValue = inputEl.value.trim();
     if (inputValue === '') {
+        fetchImg.pageToStartPosition();
         loadMoreButtonEl.classList.add('is-hidden');
         clearHTML();
     }
@@ -98,12 +101,21 @@ async function onLoadMoreButtonEl(e) {
 
         if (fetchImg.page === Math.ceil(response.data.total / 20)) {
             loadMoreButtonEl.classList.add('is-hidden');
-            Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+            iziToast.info({
+                position: 'topRight',
+                maxWidth: '430px',
+                message: 'Sorry, there are no more images!',
+                messageSize: '16px',
+                messageLineHeight: '24px',
+                progressBarColor: '#B51B1B',
+                color: '#EF4040',
+                messageColor: "#ffffff",
+            });
         }
 
         galleryWrapper.insertAdjacentHTML('beforeend', createMarkUp(response.data.hits));
 
-        new SimpleLightbox('.gallery a', {
+        const gallerySimpleLightbox = new SimpleLightbox('.gallery a', {
             captionsData: 'alt',
             captionDelay: 250
         });
