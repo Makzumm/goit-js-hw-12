@@ -1,18 +1,22 @@
 import { refs } from './vars';
+import { FetchImage } from '/js/pixaby-api.js';
 import { createMarkUp } from '/js/render-functions.js';
+
+const fetchImg = new FetchImage();
 
 import gallerySimpleLightbox from "./simplelightbox-init.js";
 
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-export async function onLoadMoreButtonEl(fetchImages) {
-    fetchImages.increasePage();
+export async function onLoadMoreButtonEl() {
+
+    fetchImg.increasePage();
 
     try {
         const searchQuery = refs.inputEl.value.trim();
-        fetchImages.query = searchQuery;
-        const response = await fetchImages.getImage(fetchImages.fetchedData);
+        fetchImg.query = searchQuery;
+        const response = await fetchImg.getImage(fetchImg.fetchedData);
 
         if (!response || !response.data || !response.data.hits || response.data.hits.length === 0) {
             iziToast.info({

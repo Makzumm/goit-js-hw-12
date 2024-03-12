@@ -1,12 +1,14 @@
 import { refs } from "./vars";
 import { createMarkUp } from '/js/render-functions.js';
+import { FetchImage } from '/js/pixaby-api.js';
+const fetchImages = new FetchImage();
 import { onClearHTMLFunc } from '/js/clearHtmlFunc.js';
 
 import gallerySimpleLightbox from "./simplelightbox-init.js";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-export async function onformEl(e, fetchImages) {
+export async function onformEl(e) {
     e.preventDefault();
 
     fetchImages.query = refs.inputEl.value.trim();
@@ -46,7 +48,6 @@ export async function onformEl(e, fetchImages) {
 
         refs.loaderEl.classList.add('is-hidden');
         fetchImages.pageToStartPosition();
-
         onClearHTMLFunc();
         refs.galleryWrapperEl.insertAdjacentHTML('beforeend', createMarkUp(data.data.hits));
 

@@ -8,8 +8,8 @@ const fetchImages = new FetchImage();
 
 refs.inputEl.addEventListener('input', onHandleInput);
 
-refs.formEl.addEventListener('submit', (e) => onformEl(e, fetchImages));
+refs.formEl.addEventListener('submit', onformEl);
 
-refs.loadMoreButtonEl.addEventListener('click', onLoadMoreButtonEl(fetchImages));
+refs.loadMoreButtonEl.addEventListener('click', onLoadMoreButtonEl);
 
 
