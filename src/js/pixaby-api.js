@@ -1,17 +1,16 @@
 import axios from 'axios';
 
-export default class FetchImage {
+export class FetchImage {
     constructor() {
         this.page = 1;
         this._searchQuery = '';
     }
 
-    async getImage(element) {
-
+    async getImage() {
         const API_KEY = '36626377-ec15308a2cdcc9d1051736749';
         const params = new URLSearchParams({
             key: `${API_KEY}`,
-            q: `${element}`,
+            q: this.query,
             image_type: 'photo',
             orientation: 'horizontal',
             safesearch: 'true',
@@ -32,10 +31,12 @@ export default class FetchImage {
 
     increasePage() {
         this.page += 1;
+        console.log(this.page)
     }
 
     pageToStartPosition() {
         this.page = 1;
+        console.log(this.page)
     }
 
     get fetchedData() {
@@ -43,7 +44,7 @@ export default class FetchImage {
     }
 
     set fetchedData(string) {
-        this._searchQuery = string;
+        this._searchQuery = string.trim() || '';
     }
 
 }

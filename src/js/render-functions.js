@@ -1,4 +1,4 @@
-export default function createMarkUp(data) {
+export function createMarkUp(data) {
     const HTMLMarkUp = data.map((el) => {
         return `
         <div class="photo-card">
