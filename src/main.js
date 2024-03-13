@@ -110,8 +110,6 @@ async function onLoadMoreButtonEl() {
 
         totalPhotoDisplayedCounter = refs.galleryWrapperEl.querySelectorAll('.photo-card').length;
 
-        console.log(totalPhotoDisplayedCounter)
-
         if (totalPhotoDisplayedCounter >= response.data.totalHits) {
             refs.loadMoreButtonEl.classList.add('is-hidden');
 
