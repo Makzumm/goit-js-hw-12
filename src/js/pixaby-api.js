@@ -31,12 +31,10 @@ export class FetchImage {
 
     increasePage() {
         this.page += 1;
-        console.log(this.page)
     }
 
     pageToStartPosition() {
         this.page = 1;
-        console.log(this.page)
     }
 
     get fetchedData() {
